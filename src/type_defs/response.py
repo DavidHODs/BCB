@@ -1,14 +1,14 @@
-from typing import Generic, NotRequired, TypedDict, TypeVar
+from typing_extensions import Generic, NotRequired, TypedDict, TypeVar
 
 T = TypeVar("T")
 
 
-class MetaData(TypedDict):
+class Metadata(TypedDict):
   total: int
   count: int
   page: int
 
 
-class ServiceResponse(TypedDict, Generic[T]):
+class APIResponse(TypedDict, Generic[T]):
   data: T
-  metadata: NotRequired[MetaData]
+  metadata: NotRequired[Metadata]

@@ -1,4 +1,4 @@
 from .kwargs import UvicornKwargs
-from .response import ServiceResponse
+from .response import APIResponse
 
-__all__ = ["UvicornKwargs", "ServiceResponse"]
+__all__ = ["UvicornKwargs", "APIResponse"]

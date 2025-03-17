@@ -1,11 +1,10 @@
 import os
-from typing import Dict
 
 import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
-from type_defs import UvicornKwargs
+from type_defs import APIResponse, UvicornKwargs
 
 load_dotenv(dotenv_path=".env")
 
@@ -17,9 +16,14 @@ env: str = os.getenv(key="ENVIRONMENT", default="development")
 
 
 @app.get("/")
-def root() -> Dict[str, str]:
+def root() -> APIResponse[str]:
   return {
-      "data": "Welcome to BCB API"
+      "data": "Welcome to book club api",
+      "metadata": {
+          "total": 50,
+          "count": 15,
+          "page": 1
+      }
   }
 
 
