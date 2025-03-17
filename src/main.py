@@ -18,7 +18,7 @@ env: str = os.getenv(key="ENVIRONMENT", default="development")
 @app.get("/health-check")
 def root() -> APIResponse[str]:
   return {
-    "data": "OK"
+      "data": "OK"
   }
 
 
