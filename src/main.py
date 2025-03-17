@@ -15,15 +15,10 @@ host: str = os.getenv(key="HOST", default="localhost")
 env: str = os.getenv(key="ENVIRONMENT", default="development")
 
 
-@app.get("/")
+@app.get("/health-check")
 def root() -> APIResponse[str]:
   return {
-      "data": "Welcome to book club api",
-      "metadata": {
-          "total": 50,
-          "count": 15,
-          "page": 1
-      }
+    "data": "OK"
   }
 
 

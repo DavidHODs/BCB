@@ -12,8 +12,6 @@ lint:
 	poetry run isort --line-length 80 --indent 2 .
 	poetry run mypy .
 
-
-
 run:
 	poetry run python src/main.py
 
