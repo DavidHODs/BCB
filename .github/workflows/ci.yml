@@ -112,7 +112,6 @@ jobs:
       - name: Test FastAPI app
         timeout-minutes: 0.5
         run: |
-          # Run the app with the proper Python path to find modules
-          cd $(pwd) && PYTHONPATH=$(pwd) poetry run uvicorn src.main:app --host 0.0.0.0 --port 9000 &
+          cd src && PYTHONPATH=$PYTHONPATH:$(pwd) poetry run uvicorn main:app --host 0.0.0.0 --port 9000 &
           sleep 5
           curl --retry 3 --retry-delay 2 --fail http://localhost:9000/health-check || exit 1
