@@ -67,6 +67,11 @@ jobs:
       - name: Install Poetry
         run: pipx install poetry
 
+      - name: Install dependencies and ensure mypy
+        run: |
+          poetry install --sync
+          poetry add --group=dev mypy
+
       - name: Run linting and formatting
         run: |
           poetry run autopep8 --aggressive --indent-size 2 --max-line-length 80 --in-place --recursive .
