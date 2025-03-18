@@ -74,10 +74,10 @@ jobs:
 
       - name: Run linting and formatting
         run: |
-          poetry run autopep8 --aggressive --indent-size 2 --max-line-length 80 --in-place --recursive .
-          poetry run isort --line-length 80 --indent 2 .
-          poetry run ruff check --fix .
-          poetry run mypy .
+          poetry run autopep8 --aggressive --indent-size 2 --max-line-length 80 --in-place --recursive src/
+          poetry run isort --line-length 80 --indent 2 src/
+          poetry run ruff check --fix src/
+          poetry run mypy src/
 
   run-app:
     name: Run FastAPI App
@@ -115,4 +115,4 @@ jobs:
         run: |
           cd src && PYTHONPATH=$PYTHONPATH:$(pwd) poetry run uvicorn main:app --host 0.0.0.0 --port 9000 &
           sleep 5
-          curl --retry 3 --retry-delay 2 --fail http://localhost:9000/health-check || exit 1
+          curl --retry 3 --retry-delay 2 --fail http://localhost:9000/api/v1/health-check || exit 1

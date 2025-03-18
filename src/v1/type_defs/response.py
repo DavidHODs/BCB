@@ -14,6 +14,19 @@ class APIResponse(TypedDict, Generic[T]):
   metadata: NotRequired[Metadata]
 
 
+class BaseResponse(TypedDict, Generic[T]):
+  data: T
+
+
 class HealthCheckData(TypedDict):
   status: str
   uptime: str
+
+
+class ErrorShape(TypedDict):
+  type: str
+  detail: str
+
+
+class ErrorResponse(TypedDict):
+  error: ErrorShape
