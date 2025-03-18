@@ -20,6 +20,7 @@ python-dotenv = "^1.0.1"
 autopep8 = "^2.3.2"
 isort = "^6.0.1"
 mypy = "^1.15.0"
+ruff = "^0.11.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = ">=3.7.0,<4.0.0"
@@ -34,6 +35,13 @@ max-line-length = 80
 
 [tool.isort]
 profile = "black"
+
+[tool.ruff]
+fix = true
+line-length = 80
+
+[tool.ruff.lint]
+select = ["F401", "F841"] 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

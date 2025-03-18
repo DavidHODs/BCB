@@ -12,3 +12,8 @@ class Metadata(TypedDict):
 class APIResponse(TypedDict, Generic[T]):
   data: T
   metadata: NotRequired[Metadata]
+
+
+class HealthCheckData(TypedDict):
+  status: str
+  uptime: str

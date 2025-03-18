@@ -1,38 +1,42 @@
-import os
+import time
 
 import uvicorn
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 
-from type_defs import APIResponse, UvicornKwargs
+from settings import INIT_TIME, Config
+from type_defs import APIResponse, HealthCheckData, UvicornKwargs
 
 load_dotenv(dotenv_path=".env")
 
 app: FastAPI = FastAPI(title="Book Club API")
 
-port: int = int(os.getenv(key="PORT", default=9000))
-host: str = os.getenv(key="HOST", default="localhost")
-env: str = os.getenv(key="ENVIRONMENT", default="development")
 
+@app.get("/health-check", status_code=status.HTTP_200_OK)
+def root() -> APIResponse[HealthCheckData]:
+  uptime_seconds = int(time.time() - INIT_TIME)
 
-@app.get("/")
-def root() -> APIResponse[str]:
+  days = uptime_seconds // 86400
+  hours = (uptime_seconds % 86400) // 3600
+  minutes = (uptime_seconds % 3600) // 60
+  seconds = uptime_seconds % 60
+
+  uptime_str = f"{days}d {hours}h {minutes}m {seconds}s"
+
   return {
-      "data": "Welcome to book club api",
-      "metadata": {
-          "total": 50,
-          "count": 15,
-          "page": 1
+      "data": {
+          "status": "OK",
+          "uptime": uptime_str
       }
   }
 
 
 if __name__ == "__main__":
   uvicorn_kwargs: UvicornKwargs = {
-      "host": host,
-      "port": port,
-      "reload": env == "development"
+      "host": Config.HOST,
+      "port": Config.PORT,
+      "reload": Config.ENVIRONMENT == "development"
   }
 
-  print(f"app running at {host}:{port}")
+  print(f"app running at {Config.HOST}:{Config.PORT}")
   uvicorn.run("src.main:app", **uvicorn_kwargs)
