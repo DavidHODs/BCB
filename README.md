@@ -31,17 +31,37 @@ This API simulates a **Book Club** where users can:
 
 ## Setup
 
-Install dependencies using Poetry
+### Install Poetry
+
+Ensure you have [Poetry](https://python-poetry.org/docs/#installation) installed before proceeding.  
+
+You can install Poetry using the official installer:  
 
 ```sh
-   poetry install
-   ```
+curl -sSL https://install.python-poetry.org | python3 -
+```
 
-Run the application:
+### Install Dependencies
 
 ```sh
-   poetry run uvicorn app.main:app
-   ```
+make install
+```
+
+### Run Linters
+
+Run auto-formatting and static analysis checks:
+
+```sh
+make lint
+```
+
+### Run the Application
+
+Start the FastAPI application:
+
+```sh
+make run
+```
 
 ## Notes
 
