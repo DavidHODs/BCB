@@ -37,7 +37,7 @@ jobs:
           key: ${{ runner.os }}-py3.11-venv-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install dependencies
-        run: poetry install --only main --sync
+        run: poetry install --sync --dev
 
   lint:
     name: Lint and Type Check
@@ -66,9 +66,6 @@ jobs:
 
       - name: Install Poetry
         run: pipx install poetry
-
-      - name: Install mypy
-        run: poetry add mypy --dev
 
       - name: Run linting and formatting
         run: |
