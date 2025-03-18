@@ -1,3 +1,3 @@
 import time
 
-INIT_TIME = time.time()
+INIT_START_TIME = time.time()

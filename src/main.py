@@ -1,35 +1,21 @@
-import time
-
 import uvicorn
 from dotenv import load_dotenv
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 
-from settings import INIT_TIME, Config
-from type_defs import APIResponse, HealthCheckData, UvicornKwargs
+from settings import INIT_START_TIME, Config
+from v1.routes import all_routes
+from v1.type_defs import UvicornKwargs
 
 load_dotenv(dotenv_path=".env")
+INIT_START_TIME
 
-app: FastAPI = FastAPI(title="Book Club API")
+app: FastAPI = FastAPI(
+    title="Book Club API",
+    version="1.0.0"
+)
 
-
-@app.get("/health-check", status_code=status.HTTP_200_OK)
-def root() -> APIResponse[HealthCheckData]:
-  uptime_seconds = int(time.time() - INIT_TIME)
-
-  days = uptime_seconds // 86400
-  hours = (uptime_seconds % 86400) // 3600
-  minutes = (uptime_seconds % 3600) // 60
-  seconds = uptime_seconds % 60
-
-  uptime_str = f"{days}d {hours}h {minutes}m {seconds}s"
-
-  return {
-      "data": {
-          "status": "OK",
-          "uptime": uptime_str
-      }
-  }
-
+for router, tags in all_routes:
+  app.include_router(router, prefix="/api/v1", tags=list(tags))
 
 if __name__ == "__main__":
   uvicorn_kwargs: UvicornKwargs = {

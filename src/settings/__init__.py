@@ -1,4 +1,4 @@
 from .config import Config
-from .time import INIT_TIME
+from .time import INIT_START_TIME
 
-__all__ = ["INIT_TIME", "Config"]
+__all__ = ["INIT_START_TIME", "Config"]
