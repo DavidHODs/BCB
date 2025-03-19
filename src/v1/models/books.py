@@ -3,10 +3,7 @@ import uuid
 from sqlalchemy import JSON, TIMESTAMP, Column, String, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import DeclarativeBase
-
-
-class Base(DeclarativeBase):
-  pass
+from .base import Base
 
 
 class Book(Base):

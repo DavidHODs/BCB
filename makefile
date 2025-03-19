@@ -16,11 +16,11 @@ run:
 init-db:
 	@alembic init $(MIGRATIONS_DIR)
 
-migrate:
+makemigration:
 	@if [ -z "$(NAME)" ]; then echo "Error: NAME is required. Usage: make migrate NAME='your_migration_name'"; exit 1; fi
-	@alembic revision --autogenerate -m "$(NAME)" --version-path $(MIGRATIONS_DIR)
+	@alembic revision -m "$(NAME)"
 
-upgrade:
+migrate:
 	@alembic upgrade head
 
 downgrade:
