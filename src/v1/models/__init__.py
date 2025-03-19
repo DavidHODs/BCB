@@ -1,7 +1,7 @@
 from .base import Base
-from .books import Book
+from .book import BookModel
 
 __all__ = [
-    "Book",
-    "Base"
+    "Base",
+    "BookModel"
 ]

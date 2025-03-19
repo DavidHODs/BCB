@@ -29,9 +29,10 @@ def upgrade() -> None:
       subjects JSONB,
       bookshelves JSONB,
       languages JSONB,
-      created_timestamp TIMESTAMPTZ DEFAULT now() NOT NULL,
-      updated_timestamp TIMESTAMPTZ DEFAULT now() NOT NULL,
-      deleted_timestamp TIMESTAMPTZ
+      created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+      updated_at TIMESTAMPTZ,
+      deleted_at TIMESTAMPTZ,
+      CONSTRAINT uq_books_title_authors UNIQUE (title, authors)
     );
   """)
 

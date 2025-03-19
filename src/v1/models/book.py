@@ -1,12 +1,12 @@
 import uuid
 
-from sqlalchemy import JSON, TIMESTAMP, Column, String, func
+from sqlalchemy import JSON, TIMESTAMP, Column, String, UniqueConstraint, func
 from sqlalchemy.dialects.postgresql import UUID
 
 from .base import Base
 
 
-class Book(Base):
+class BookModel(Base):
   __tablename__ = "books"
 
   id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -16,7 +16,7 @@ class Book(Base):
   translators = Column(JSON, nullable=True)
   subjects = Column(JSON, nullable=True)
   bookshelves = Column(JSON, nullable=True)
-  languages = Column(JSON, nullable=True)
+  languages = Column(JSON, nullable=False)
   created_at = Column(
       TIMESTAMP(
           timezone=True),
@@ -29,3 +29,7 @@ class Book(Base):
       onupdate=func.now(),
       nullable=True)
   deleted_at = Column(TIMESTAMP(timezone=True), nullable=True)
+  
+  __table_args__ = (
+    UniqueConstraint("title", "authors", name="uq_books_title_authors"),
+  )
