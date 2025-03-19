@@ -1,5 +1,5 @@
-from .books import Book
 from .base import Base
+from .books import Book
 
 __all__ = [
     "Book",
