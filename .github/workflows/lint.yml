@@ -1,0 +1,42 @@
+name: Lint Code
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  lint:
+    name: Lint and Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+        
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: ${{ runner.os }}-poetry-
+        
+      - name: Install Poetry
+        run: pipx install poetry
+        
+      - name: Install linting dependencies only
+        run: |
+          poetry install --only dev --no-root
+          poetry add --group=dev autopep8 isort ruff mypy
+        
+      - name: Run linting and type checking
+        run: |
+          poetry run autopep8 --aggressive --indent-size 2 --max-line-length 80 --in-place --recursive src/
+          poetry run isort --line-length 80 --indent 2 src/
+          poetry run ruff check --fix src/
+          poetry run mypy src/

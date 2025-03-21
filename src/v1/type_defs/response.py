@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from typing_extensions import Generic, NotRequired, TypedDict, TypeVar
 
 T = TypeVar("T")
@@ -30,3 +32,8 @@ class ErrorShape(TypedDict):
 
 class ErrorResponse(TypedDict):
   error: ErrorShape
+
+
+class CreateData(TypedDict):
+  id: UUID
+  message: str

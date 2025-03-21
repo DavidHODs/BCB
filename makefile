@@ -1,3 +1,6 @@
+MIGRATIONS_DIR=src/database/migrations
+
+
 install:
 	poetry install
 
@@ -10,3 +13,24 @@ lint:
 run:
 	poetry run python src/main.py
 
+init-db:
+	@alembic init $(MIGRATIONS_DIR)
+
+makemigration:
+	@if [ -z "$(NAME)" ]; then echo "Error: NAME is required. Usage: make migrate NAME='your_migration_name'"; exit 1; fi
+	@alembic revision -m "$(NAME)"
+
+migrate:
+	@alembic upgrade head
+
+downgrade:
+	@alembic downgrade -1
+
+db-history:
+	@alembic history
+
+db-current:
+	@alembic current
+
+db-stamp:
+	@alembic stamp head

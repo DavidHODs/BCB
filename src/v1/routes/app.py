@@ -5,7 +5,7 @@ from v1.docs import get_responses
 from v1.type_defs import BaseResponse, HealthCheckData
 
 
-class AppRoutes:
+class AppRoute:
   def __init__(self) -> None:
     self.router = APIRouter()
     self.controller = AppController()

@@ -21,6 +21,7 @@ autopep8 = "^2.3.2"
 isort = "^6.0.1"
 mypy = "^1.15.0"
 ruff = "^0.11.0"
+psycopg2 = "^2.9.10"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = ">=3.7.0,<4.0.0"
