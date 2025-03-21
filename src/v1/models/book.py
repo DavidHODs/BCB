@@ -29,7 +29,7 @@ class BookModel(Base):
       onupdate=func.now(),
       nullable=True)
   deleted_at = Column(TIMESTAMP(timezone=True), nullable=True)
-  
+
   __table_args__ = (
-    UniqueConstraint("title", "authors", name="uq_books_title_authors"),
+      UniqueConstraint("title", "authors", name="uq_books_title_authors"),
   )

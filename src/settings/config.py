@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path=".env")
 
+
 class Config:
   PORT: int = int(os.getenv("PORT", 9000))
   HOST: str = os.getenv("HOST", "localhost")

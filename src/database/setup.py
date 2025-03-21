@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.sql import text
 from typing_extensions import Generator
 
@@ -23,6 +23,7 @@ def get_db() -> Generator[Session, None, None]:
   finally:
     db.close()
 
+
 def check_database() -> None:
   try:
     db = next(get_db())
@@ -33,6 +34,7 @@ def check_database() -> None:
     exit(1)
   finally:
     db.close()
-    
+
+
 def close_database() -> None:
   session_local().close_all()
