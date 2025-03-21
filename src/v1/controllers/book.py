@@ -14,34 +14,34 @@ class BookController:
   def __init__(self) -> None:
     self.book_service = BookService()
 
-  async def create_book(self, book_data: BookSchema, db: Session = Depends(
+  async def create(self, book_data: BookSchema, db: Session = Depends(
           get_db)) -> APIResponse[CreateData] | Response:
     try:
       payload = book_data.model_dump()
-      return self.book_service.create_book(payload, db)
+      return self.book_service.create(payload, db)
     except AppException as exc:
       return ExceptionHandler.handle_error(exc)
     
-  async def get_book(self, book_id: uuid.UUID, db: Session = Depends(get_db)) -> APIResponse[BookModel] | Response:
+  async def getOne(self, id: uuid.UUID, db: Session = Depends(get_db)) -> APIResponse[BookModel] | Response:
     try:
-      return self.book_service.get_book_by_id(book_id, db)
+      return self.book_service.getOne(id, db)
     except AppException as exc:
       return ExceptionHandler.handle_error(exc)
 
-  async def list_books(self, page: int = 1, limit: int = 15, db: Session = Depends(get_db)) -> APIResponse[list[BookModel]] | Response:
+  async def getAll(self, page: int = 1, limit: int = 15, db: Session = Depends(get_db)) -> APIResponse[list[BookModel]] | Response:
     try:
-      return self.book_service.list_books(page, limit, db)
+      return self.book_service.getAll(page, limit, db)
     except AppException as exc:
       return ExceptionHandler.handle_error(exc)
 
-  async def soft_delete_book(self, book_id: uuid.UUID, db: Session = Depends(get_db)) -> APIResponse[str] | Response:
+  async def delete(self, id: uuid.UUID, db: Session = Depends(get_db)) -> APIResponse[str] | Response:
     try:
-      return self.book_service.soft_delete_book(book_id, db)
+      return self.book_service.delete(id, db)
     except AppException as exc:
       return ExceptionHandler.handle_error(exc)
 
-  async def restore_book(self, book_id: uuid.UUID, db: Session = Depends(get_db)) -> APIResponse[str] | Response:
+  async def restore(self, id: uuid.UUID, db: Session = Depends(get_db)) -> APIResponse[str] | Response:
     try:
-      return self.book_service.restore_book(book_id, db)
+      return self.book_service.restore(id, db)
     except AppException as exc:
       return ExceptionHandler.handle_error(exc)

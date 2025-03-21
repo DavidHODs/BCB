@@ -1,9 +1,11 @@
 from typing import Optional
+import uuid
 
 from pydantic import BaseModel
 
 
 class BookSchema(BaseModel):
+  id: Optional[uuid.UUID]
   title: str
   authors: list[str]
   summaries: Optional[list[str]]

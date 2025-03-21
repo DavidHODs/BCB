@@ -13,7 +13,7 @@ from v1.type_defs import APIResponse, CreateData, ErrorTypeEnum
 
 
 class BookService:
-  def create_book(self, book_data: dict[str, Any],
+  def create(self, book_data: dict[str, Any],
                   db: Session) -> APIResponse[CreateData]:
     try:
       book = BookModel(**book_data)
@@ -32,10 +32,10 @@ class BookService:
       db.rollback()
       raise AppException.classify_error(exc)
     
-  def get_book_by_id(self, book_id: uuid.UUID, db: Session) -> APIResponse[BookModel]:
+  def getOne(self, id: uuid.UUID, db: Session) -> APIResponse[BookModel]:
     try: 
       book = db.query(BookModel).filter(
-          BookModel.id == book_id,
+          BookModel.id == id,
           BookModel.deleted_at.is_(None)
       ).first()
       
@@ -49,7 +49,7 @@ class BookService:
       raise AppException.classify_error(exc)
       
 
-  def list_books(self, page: int, limit: int, db: Session) -> APIResponse[list[BookModel]]:
+  def getAll(self, page: int, limit: int, db: Session) -> APIResponse[list[BookModel]]:
     try:
       query = db.query(BookModel).filter(BookModel.deleted_at.is_(None))
     
@@ -68,10 +68,10 @@ class BookService:
     except Exception as exc:
       raise AppException.classify_error(exc)
 
-  def soft_delete_book(self, book_id: uuid.UUID, db: Session) -> APIResponse[str]:
+  def delete(self, id: uuid.UUID, db: Session) -> APIResponse[str]:
     try: 
       book = db.query(BookModel).filter(
-          BookModel.id == book_id,
+          BookModel.id == id,
           BookModel.deleted_at.is_(None)
       ).first()
       
@@ -79,7 +79,7 @@ class BookService:
         raise AppException(type=ErrorTypeEnum.NOT_FOUND)
 
       db.query(BookModel).filter(
-          BookModel.id == book_id
+          BookModel.id == id
       ).update({"deleted_at": datetime.datetime.now()})
       db.commit()
       
@@ -90,10 +90,10 @@ class BookService:
     except Exception as exc:
       raise AppException.classify_error(exc)
 
-  def restore_book(self, book_id: uuid.UUID, db: Session) -> APIResponse[str]:
+  def restore(self, id: uuid.UUID, db: Session) -> APIResponse[str]:
     try:
       book = db.query(BookModel).filter(
-          BookModel.id == book_id,
+          BookModel.id == id,
           BookModel.deleted_at.is_not(None)
       ).first()
       
@@ -101,7 +101,7 @@ class BookService:
         raise AppException(type=ErrorTypeEnum.NOT_FOUND)
 
       db.query(BookModel).filter(
-          BookModel.id == book_id
+          BookModel.id == id
       ).update({"deleted_at": None})
       db.commit()
       

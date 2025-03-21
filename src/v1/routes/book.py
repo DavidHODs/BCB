@@ -15,7 +15,7 @@ class BookRoute:
   def _register_routes(self) -> None:
     self.router.add_api_route(
       path="/books",
-      endpoint=self.controller.create_book,
+      endpoint=self.controller.create,
       methods=["POST"],
       description="Create new book",
       responses=get_responses(200, 400, 500),
@@ -23,8 +23,8 @@ class BookRoute:
     )
     
     self.router.add_api_route(
-      path="/books/{book_id}",
-      endpoint=self.controller.get_book,
+      path="/books/{id}",
+      endpoint=self.controller.getOne,
       methods=["GET"],
       description="Get a book by ID",
       responses=get_responses(200, 404),
@@ -33,7 +33,7 @@ class BookRoute:
 
     self.router.add_api_route(
       path="/books",
-      endpoint=self.controller.list_books,
+      endpoint=self.controller.getAll,
       methods=["GET"],
       description="List books (paginated)",
       responses=get_responses(200, 400, 500),
@@ -41,8 +41,8 @@ class BookRoute:
     )
 
     self.router.add_api_route(
-      path="/books/{book_id}",
-      endpoint=self.controller.soft_delete_book,
+      path="/books/{id}",
+      endpoint=self.controller.delete,
       methods=["DELETE"],
       description="Soft delete a book",
       responses=get_responses(200, 404, 500),
@@ -50,8 +50,8 @@ class BookRoute:
     )
 
     self.router.add_api_route(
-      path="/books/{book_id}/restore",
-      endpoint=self.controller.restore_book,
+      path="/books/{id}/restore",
+      endpoint=self.controller.restore,
       methods=["PATCH"],
       description="Restore a soft-deleted book",
       responses=get_responses(200, 404, 500),
