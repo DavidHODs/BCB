@@ -1,0 +1,32 @@
+FROM python:3.11 as builder
+
+WORKDIR /src
+
+RUN pip install --no-cache-dir poetry
+
+RUN poetry config virtualenvs.in-project true
+
+COPY pyproject.toml poetry.lock ./
+
+RUN poetry install --no-root --no-interaction --no-ansi
+
+FROM python:3.11-slim
+
+WORKDIR /src
+
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /src/.venv /src/.venv
+
+ENV PATH="/src/.venv/bin:$PATH"
+
+COPY . .
+
+RUN chmod +x scripts/start.sh
+
+EXPOSE 9000
+
+ENTRYPOINT ["/src/scripts/start.sh"]
