@@ -1,6 +1,6 @@
 FROM python:3.11 as builder
 
-WORKDIR /src
+WORKDIR /
 
 RUN pip install --no-cache-dir poetry
 
@@ -12,7 +12,7 @@ RUN poetry install --no-root --no-interaction --no-ansi
 
 FROM python:3.11-slim
 
-WORKDIR /src
+WORKDIR /
 
 RUN apt-get update && apt-get install -y \
   libpq-dev \
@@ -22,9 +22,10 @@ RUN apt-get update && apt-get install -y \
 
 RUN pip install --no-cache-dir poetry
 
-COPY --from=builder /src/.venv /src/.venv
+COPY --from=builder /.venv /.venv
 
-ENV PATH="/src/.venv/bin:$PATH"
+ENV PATH="/.venv/bin:$PATH" \
+  PYTHONPATH="/"
 
 COPY . .
 
@@ -32,4 +33,4 @@ RUN chmod +x scripts/start.sh
 
 EXPOSE 9000
 
-ENTRYPOINT ["/src/scripts/start.sh"]
+ENTRYPOINT ["/scripts/start.sh"]

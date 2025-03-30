@@ -41,7 +41,7 @@ for router, tags in all_routes:
 
 if __name__ == "__main__":
   uvicorn_kwargs: UvicornKwargs = {
-      "host": Config.HOST,
+      "host": "0.0.0.0",
       "port": Config.PORT,
       "reload": Config.ENVIRONMENT == "development"
   }
