@@ -3,7 +3,8 @@ import uuid
 
 import httpx
 import sqlalchemy
-from sqlalchemy import func, or_
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import and_, func, or_, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -113,7 +114,7 @@ class BookService:
     except Exception as exc:
       raise AppException.classify_error(exc)
 
-  async def search(self, query: str, page: int, limit: int, db: Session,
+  async def search(self, query: str, page: int, limit: int, db: AsyncSession,
                    gutendex: bool = False) -> APIResponse[list[BookModel]]:
     try:
       if gutendex:
@@ -148,30 +149,43 @@ class BookService:
           stmt = insert(BookModel).values(books_to_insert)
           stmt = stmt.on_conflict_do_nothing(
               index_elements=["title", "authors"])
-          db.execute(stmt)
-          db.commit()
+          await db.execute(stmt)
+          await db.commit()
 
-      books_query = db.query(BookModel).filter(
+      books_stmt = (
+      select(BookModel)
+      .where(
+          BookModel.deleted_at.is_(None),
+          and_(
+              BookModel.title.ilike(f"%{query}%"),
+              func.cast(BookModel.authors, sqlalchemy.String).ilike(f"%{query}%")
+          )
+      )
+      .offset((page - 1) * limit)
+      .limit(limit)
+      )
+
+      count_stmt = select(func.count()).select_from(BookModel).where(
           BookModel.deleted_at.is_(None),
           or_(
               BookModel.title.ilike(f"%{query}%"),
-              func.cast(
-                  BookModel.authors,
-                  sqlalchemy.String).ilike(f"%{query}%")
+              func.cast(BookModel.authors, sqlalchemy.String).ilike(f"%{query}%")
           )
       )
 
-      total = books_query.count()
-      books = books_query.offset((page - 1) * limit).limit(limit).all()
+      books_result, count_result = await db.execute(books_stmt), await db.execute(count_stmt)
 
+      books = list(books_result.scalars().all())
+      total = count_result.scalar()
+        
       return {
-          "data": books,
-          "metadata": {
-              "total": total,
-              "count": len(books),
-              "page": page
-          }
+      "data": books,
+      "metadata": {
+          "total": total or 0,  
+          "count": len(books),
+          "page": page
       }
+    }
 
     except (SQLAlchemyError, Exception) as exc:
       raise AppException.classify_error(exc)

@@ -2,6 +2,7 @@ import uuid
 
 from fastapi import Depends, Response
 from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_db
 from v1.errors import AppException, ExceptionHandler
@@ -52,7 +53,7 @@ class BookController:
       return ExceptionHandler.handle_error(exc)
 
   async def search(self, query: str, page: int = 1, limit: int = 15, gutendex: bool = False,
-                   db: Session = Depends(get_db)) -> APIResponse[list[BookModel]] | Response:
+                   db: AsyncSession = Depends(get_db)) -> APIResponse[list[BookModel]] | Response:
     try:
       return await self.book_service.search(query, page, limit, db, gutendex)
     except AppException as exc:

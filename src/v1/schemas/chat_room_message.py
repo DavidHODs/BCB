@@ -7,3 +7,8 @@ class ChatRoomMessageSchema(BaseModel):
   chat_room_id: uuid.UUID
   username: str
   message: str
+  
+  
+class ChatMessagePayloadSchema(BaseModel):
+  username: str
+  message: str
