@@ -34,7 +34,7 @@ class ChatRoute:
       methods=["DELETE"],
       description="Disconnect from a chat room",
       responses=get_responses(200, 400, 500),
-      response_model=BaseResponse[None]
+      response_model=BaseResponse[str]
     )
 
     self.router.add_api_route(
@@ -43,5 +43,5 @@ class ChatRoute:
       methods=["POST"],
       description="Broadcast a message to all connected clients in a chat room",
       responses=get_responses(200, 400, 500),
-      response_model=BaseResponse[None]
+      response_model=BaseResponse[str]
     )

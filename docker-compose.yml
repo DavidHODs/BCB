@@ -1,5 +1,4 @@
 version: "3.8"
-
 services:
   db:
     image: postgres:16
@@ -25,6 +24,7 @@ services:
     image: bcb-app
     container_name: bcb-app
     restart: always
+    build: .
     depends_on:
       db:
         condition: service_healthy

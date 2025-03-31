@@ -1,7 +1,6 @@
 import uuid
 from fastapi import Depends, Response, WebSocket
 from sqlalchemy.orm import Session
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_db
 from v1.errors import AppException, ExceptionHandler
@@ -21,20 +20,20 @@ class ChatController:
     except AppException as exc:
       return ExceptionHandler.handle_error(exc)
 
-  async def connect(self, websocket: WebSocket, chat_room_id: str, limit: int = 15, page: int = 1, db: AsyncSession = Depends(get_db)) -> APIResponse[None] | Response:
+  async def connect(self, websocket: WebSocket, chat_room_id: str) -> str | Response:
     try:
-      return await self.chat_service.connect(db, websocket, chat_room_id, limit, page)
+      return await self.chat_service.connect(websocket, chat_room_id)
     except AppException as exc:
       return ExceptionHandler.handle_error(exc)
 
-  def disconnect(self, room_id: str, websocket: WebSocket) -> APIResponse[None] | Response:
+  def disconnect(self, chat_room_id: str, websocket: WebSocket) -> APIResponse[str] | Response:
     try:
-      return self.chat_service.disconnect(room_id, websocket)
+      return self.chat_service.disconnect(chat_room_id, websocket)
     except AppException as exc:
       return ExceptionHandler.handle_error(exc)
 
-  async def broadcast(self, chat_room_id: str, message_data: ChatRoomMessageSchema, db: Session = Depends(get_db)) -> APIResponse[None] | Response:
+  async def broadcast(self, chat_room_id: str, payload: ChatRoomMessageSchema, db: Session = Depends(get_db)) -> APIResponse[str] | Response:
     try:
-      return await self.chat_service.broadcast(chat_room_id, db, message_data)
+      return await self.chat_service.broadcast(db, chat_room_id, payload)
     except AppException as exc:
       return ExceptionHandler.handle_error(exc)
