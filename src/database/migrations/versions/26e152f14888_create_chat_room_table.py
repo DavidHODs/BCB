@@ -8,8 +8,6 @@ Create Date: 2025-03-30 18:54:56.693413
 from typing import Sequence, Union
 
 from alembic import op
-import sqlalchemy as sa
-
 
 # revision identifiers, used by Alembic.
 revision: str = '26e152f14888'
@@ -24,7 +22,7 @@ def upgrade() -> None:
       id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       name VARCHAR NOT NULL,
       created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
-      
+
       CONSTRAINT uq_chat_room_name UNIQUE (name)
     );
   """)

@@ -8,8 +8,6 @@ Create Date: 2025-03-30 18:57:10.467561
 from typing import Sequence, Union
 
 from alembic import op
-import sqlalchemy as sa
-
 
 # revision identifiers, used by Alembic.
 revision: str = '138fc8b5488e'
@@ -26,7 +24,7 @@ def upgrade() -> None:
       username VARCHAR NOT NULL,
       message TEXT NOT NULL,
       created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
-      
+
       CONSTRAINT fk_chat_room_messages_chat_room_id FOREIGN KEY (chat_room_id)
       REFERENCES chat_rooms (id) ON DELETE CASCADE
     );

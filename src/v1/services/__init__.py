@@ -3,7 +3,7 @@ from .book import BookService
 from .chat import ChatService
 
 __all__ = [
-  "AppService",
-  "BookService",
-  "ChatService"
+    "AppService",
+    "BookService",
+    "ChatService"
 ]
