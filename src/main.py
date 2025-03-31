@@ -43,7 +43,7 @@ if __name__ == "__main__":
   uvicorn_kwargs: UvicornKwargs = {
       "host": Config.HOST,
       "port": Config.PORT,
-      "reload": Config.ENVIRONMENT == "development"
+      "reload": Config.isDev
   }
 
   print(f"app running at {Config.HOST}:{Config.PORT}")

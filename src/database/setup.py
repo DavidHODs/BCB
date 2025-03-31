@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.sql import text
 from typing_extensions import Generator
 
-from settings.config import Config
+from settings import Config
 
 DATABASE_URL = (
     f"postgresql://{Config.DB_USER}:{Config.DB_PASSWORD}"

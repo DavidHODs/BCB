@@ -29,7 +29,7 @@ ERROR_TYPE_DEFAULTS: Dict[ErrorTypeEnum, str] = {
     ErrorTypeEnum.VALIDATION_ERROR: "Validation failed for the provided data.",
     ErrorTypeEnum.BAD_REQUEST: "The request was missing required parameters.",
     ErrorTypeEnum.NOT_FOUND: "The requested resource could not be found.",
-    ErrorTypeEnum.DATABASE_ERROR: "A database-related error occurred.",
+    ErrorTypeEnum.DATABASE_ERROR: "A database related error occurred.",
     ErrorTypeEnum.UNAUTHORIZED: "You do not have the necessary permissions.",
     ErrorTypeEnum.RESOURCE_CONFLICT: "A conflict occurred, preventing the operation.",
     ErrorTypeEnum.INTERNAL_SERVER_ERROR: "An unexpected error occurred. Please try again later.",

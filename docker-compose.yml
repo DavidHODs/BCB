@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:16
+    container_name: bcb-db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+      DB_HOST: ${DB_HOST}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
+
+  app:
+    image: bcb-app
+    container_name: bcb-app
+    restart: always
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:${PORT}"
+
+volumes:
+  postgres_data:

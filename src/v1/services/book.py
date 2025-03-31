@@ -174,4 +174,5 @@ class BookService:
       }
 
     except (SQLAlchemyError, Exception) as exc:
+      db.rollback()
       raise AppException.classify_error(exc)
