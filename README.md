@@ -7,27 +7,24 @@ This project is a structured learning exercise to explore **FastAPI** while rein
 This API simulates a **Book Club** where users can:
 
 - Search for books summary locally and externally via Gutendex API.
-- Review and rate books.
-- Engage in discussion threads related to books.
+- Engage in discussion threads related to books via chat.
 
 ## Features
 
 - **OpenAPI Documentation** – Auto-generated API docs with Swagger and Redoc.
-- **Authentication** – Secure user management.
-- **Book Management** – Fetch books externally and manage locally reviewed books.
-- **User Reviews** – Track ratings and reviews per book.
-- **Discussion Threads** – Users can create threads and comment on books.
+- **Book Management** – Fetch books externally and manage locally stored books.
+- **Discussion Threads** – Users can create chat rooms and comment on books.
 - **Database Support** – Uses an ORM to persist books, users, and discussions.
 
 ## Tech Stack
 
 - **FastAPI** – High-performance web framework for APIs.
-- **PostgreSQL** – Stores books, users, reviews, and threads.
+- **PostgreSQL** – Stores books and chat threads.
 - **SQLAlchemy/Pydantic** – Data modeling and validation.
+- **Alembic** – Database migrations for SQLAlchemy models.
 - **Poetry** – Dependency management.
-- **Docker** – Containerization for deployment.
-- **Nginx** – Reverse proxy.
-- **Uvicorn** – Production ASGI server.
+- **Docker & Docker Compose** – Containerization and orchestration for deployment.
+- **MyPy** – Static type checking for Python code.
 
 ## Setup
 
@@ -65,4 +62,4 @@ make run
 
 ## Notes
 
-This project is not a tutorial but a **hands-on exploration** of FastAPI and backend engineering. It also serves as a way to integrate DevOps practices for deployment, monitoring, and scaling.
+This is a scaffold project that'll serve as the skeletal framework for another project. It does not include authentication, and chat rooms and messages cannot be updated or deleted.
