@@ -42,9 +42,4 @@ class ChatRoute:
         description="Broadcast a message to all connected clients in a chat room",
         responses=get_responses(200, 400, 500),
         response_model=BaseResponse[str]
-        
-        
-        
-        
-        
     )
