@@ -9,6 +9,8 @@ class Config:
   PORT: int = int(os.getenv("PORT", 9000))
   HOST: str = os.getenv("HOST", "localhost")
   ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+  isDev: bool = ENVIRONMENT == "development"
+  isProd: bool = ENVIRONMENT == "production"
 
   DB_PORT: int = int(os.getenv("DB_PORT", 5432))
   DB_DATABASE: str = os.getenv("DB_DATABASE", "bcb")

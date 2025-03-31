@@ -2,7 +2,7 @@ from fastapi import APIRouter, WebSocket
 
 from v1.controllers import ChatController
 from v1.docs import get_responses
-from v1.schemas import ChatRoomSchema, ChatRoomMessageSchema, ChatMessagePayloadSchema
+from v1.schemas import ChatRoomSchema, ChatRoomMessageSchema
 from v1.type_defs import APIResponse, BaseResponse, CreateData
 from v1.models import ChatRoomMessageModel
 
@@ -23,31 +23,13 @@ class ChatRoute:
       response_model=BaseResponse[CreateData]
     )
 
-    self.router.add_api_route(
-      path="/chat/messages",
-      endpoint=self.controller.save_message,
-      methods=["POST"],
-      description="Save a chat message",
-      responses=get_responses(200, 400, 500),
-      response_model=BaseResponse[ChatRoomMessageModel]
-    )
-
-    self.router.add_api_route(
-      path="/chat/rooms/{chat_room_id}/messages",
-      endpoint=self.controller.get_previous_messages,
-      methods=["GET"],
-      description="Retrieve previous messages in a chat room",
-      responses=get_responses(200, 400, 500),
-      response_model=BaseResponse[list[ChatRoomMessageModel]]
-    )
-
     self.router.add_api_websocket_route(
-      path="/chat/rooms/{room_id}/ws",
+      path="/chat/rooms/{chat_room_id}/ws",
       endpoint=self.controller.connect
     )
 
     self.router.add_api_route(
-      path="/chat/rooms/{room_id}/disconnect",
+      path="/chat/rooms/{chat_room_id}/disconnect",
       endpoint=self.controller.disconnect,
       methods=["DELETE"],
       description="Disconnect from a chat room",
@@ -56,7 +38,7 @@ class ChatRoute:
     )
 
     self.router.add_api_route(
-      path="/chat/rooms/{room_id}/broadcast",
+      path="/chat/rooms/{chat_room_id}/broadcast",
       endpoint=self.controller.broadcast,
       methods=["POST"],
       description="Broadcast a message to all connected clients in a chat room",

@@ -41,9 +41,9 @@ for router, tags in all_routes:
 
 if __name__ == "__main__":
   uvicorn_kwargs: UvicornKwargs = {
-      "host": "0.0.0.0",
+      "host": Config.HOST,
       "port": Config.PORT,
-      "reload": Config.ENVIRONMENT == "development"
+      "reload": Config.isDev
   }
 
   print(f"app running at {Config.HOST}:{Config.PORT}")
